@@ -186,6 +186,8 @@ func (d *state) Sum(in []byte) []byte {
 	// Make a copy of the original hash so that caller can keep writing
 	// and summing.
 	dup := d.clone()
+	// Improvement: Hash is copied to a newly created array, then to the output buffer immediately. Eliminate temp
+	// array and copy the hash to the output directly.
 	hash := make([]byte, dup.outputLen)
 	dup.Read(hash)
 	return append(in, hash...)
